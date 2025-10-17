@@ -38,45 +38,12 @@ void descompacta_string(char s[MAX_TAM_STR], char output[MAX_TAM_STR]){
             temp[0] = c;
             temp[1] = '\0';
 
-            strcat(output, temp); // Erro
+            strcat(output, temp);
         }
 
         // Passa para o próximo caractere ou fim da string
         i = j+1;
     }
-    
-/*
-    for(int i=0; i < strlen(s); i++){   // Transformar num while??
-        char c = s[i]; // Caractere a ser concatenado
-
-        // i+1 marca o início do número
-        int j = i+1; 
-
-        // j vai marcar o fim do numero + 1
-        while(s[j] != '-' || j >= strlen(s)) j++;
-
-        int n = 0; // A quantidade de vezes em que o caractere será concatenado
-
-        int mult = 1;
-        for(int k = j-1; k>i; k--){
-            n += mult * parseInt(s[k]); 
-            
-            mult *= 10;
-        }
-
-        // Concatena o caractere n vezes no resultado
-        for(int k=0; k<n; k++){
-            char temp[2]; // O segundo arg de strcat espera um char*
-            temp[0] = c;
-            temp[1] = '\0';
-
-            strcat(output, temp); // Erro
-        }
-
-        // Passa para o próximo caractere ou fim da string
-        i = j+1;
-    }
-    */
 }
 
 int main() {

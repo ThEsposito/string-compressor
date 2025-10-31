@@ -1,3 +1,5 @@
+// Escreva em C o algoritmo ex2 que descompacta o que foi compactado no item anterior
+
 #include <stdio.h>
 #include <string.h>
 

@@ -47,12 +47,18 @@ void descompacta_string(char s[MAX_TAM_STR], char output[MAX_TAM_STR]){
 }
 
 int main() {
-    char compac[MAX_TAM_STR] = "a7-b5-a10";
+    char compac[MAX_TAM_STR];
+
+    // compac[MAX_TAM_STR] = "a7-b5-a10";
+    printf("Digite a string compactada: ");
+    fgets(compac, sizeof(compac), stdin);
+    compac[strcspn(compac, "\n")] = '\0';
+
     char descompac[MAX_TAM_STR];
     descompac[0] = '\0';
 
     descompacta_string(compac, descompac);
 
-    printf("%s", descompac);
+    printf("String descompactada: %s\n", descompac);
     return 0;
 }

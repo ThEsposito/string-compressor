@@ -6,7 +6,7 @@
 #define MAX_TAMANHO 100
 
 int main() {
-    char entrada[MAX_TAMANHO];
+    char entrada[TAM_MAX];
     int cont = 1;
     
 

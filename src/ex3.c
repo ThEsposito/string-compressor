@@ -3,46 +3,60 @@ Escreva em C o algoritmo ex3 que compacta elementos contíguos repetidos do segu
 modo:
 
 Listing 3: Exemplo de entrada do "ex3".
-1 ex3 " ababababababababababab "
+1 ex3 "ababababababababababab"
 2 >" ab11 "
 3
-4 ex3 " ababababababaaaaaaaaaaaaaaa "
-5 >" ab6−a15 "
+4 ex3 "ababababababaaaaaaaaaaaaaaa"
+5 >"ab6−a15"
 6
 7 ex3 " abcabcabcabcxyxyxyccccccc "
-8 >" abc4−xy3−c7 "
+8 >"abc4−xy3−c7"
 9
-10 ex3 " a nt o n i o a nt o n i o a nt o n i o c a r l o s c a r l o s "
-11 >" antonio3 −c a r l o s 2 "
+10 ex3 "antonioantonioantoniocarloscarlos"
+11 >"antonio3−carlos2"
 */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 
-#define MAX_TAMANHO 100
+#define TAM_MAX 100
 
-// FUNCAO QUE CONFERE SE HA PADRAO NA SEQUENCIA DIGITADA
-bool repete(){
 
+bool repete(char s[TAM_MAX], int tamStr, int tamSubstring, int inicio){
+    if(inicio+tamSubstring >= tamStr) return false;
+
+    for(int i=inicio; inicio<inicio+tamSubstring; i++){ // <= ???
+        if(s[i] != s[i+tamSubstring]) return false;
+    }
+
+    return true;
 }
 
 int main(){
-    char entrada[MAX_TAMANHO];
-    int cont1 = 1; // contador de letra repetida
-    int cont2 = 1; // contador de conjunto repetido
-    
+    char input[TAM_MAX];
+    char output[TAM_MAX];
 
     printf("Digite a sequencia de letras: ");
-    fgets(entrada, sizeof(entrada), stdin);
-    entrada[strcspn(entrada, "\n")] = '\0'; // remove o \n lido pelo fgets
-    int tamanho = strlen(entrada); // declaracao do tamanho do vetor DIGITADO
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = '\0'; // remove o \n lido pelo fgets
+    int tam_str = strlen(input); // declaracao do tam_str do vetor DIGITADO
 
-    for(int i = 0; i < tamanho; i++){
-        while(entrada[i] == entrada[i+1]){ // se for 'aaaaa' por exemplo
-            cont1++;
+    for(int i = 0; i < tam_str; i++){
+        // 1. Tentar encontrar a maior sequencia que se repete.
+        //    Pra isso, vamos testando strings de tam_str i (incrementando de 1 em 1)
+        
+        int menor_tam_de_padrao = 0;
+        
+        for(int tam_padrao_atual = tam_str/2; tam_padrao_atual>=0; tam_padrao_atual--){
+            if(repete(input, tam_str, tam_padrao_atual, i)){
+                menor_tam_de_padrao = tam_padrao_atual;
+            }
         }
 
+        if(menor_tam_de_padrao == 0) continue; // incremento de i, para testar a partir da proxima posição
+
+        // Se um padrão foi encontrado, copia ele para a saída, indicando-se q qtde de vezes que se repetiu
     }
 
     return 0;

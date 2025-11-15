@@ -1,4 +1,10 @@
 /*
+TODO: resolver cases abaixo
+in: bxcatata
+out: b1-x1-c1-at2-a1
+ - Primeiro, tá printando só a1 (acho que não ocorria antes)
+ - Segundo, a saída deveria ser só "bxc1-at2-a1"
+
 Escreva em C o algoritmo ex3 que compacta elementos contíguos repetidos do seguinte
 modo:
 

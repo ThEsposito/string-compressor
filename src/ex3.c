@@ -18,76 +18,78 @@ Listing 3: Exemplo de entrada do "ex3".
 
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 #define TAM_MAX 100
 
-
-bool repete(char s[TAM_MAX], int tamStr, int tamSubstring, int inicio){
-    if(inicio+tamSubstring >= tamStr) return false;
+int repete(char s[TAM_MAX], int tamStr, int tamSubstring, int inicio){
+    if(inicio + (tamSubstring * 2) > tamStr) return 0;
 
     for(int i=inicio; i<inicio+tamSubstring; i++){ 
-        if(s[i] != s[i+tamSubstring]) return false;
+        if(s[i] != s[i+tamSubstring]) return 0;
     }
 
-    return true;
+    return 1;
 }
 
 int main(){
     char input[TAM_MAX];
-    char output[TAM_MAX] = "\0";
+    char output[TAM_MAX] = "";
 
     printf("Digite a sequencia de letras: ");
     fgets(input, sizeof(input), stdin);
-    input[strcspn(input, "\n")] = '\0'; // remove o \n lido pelo fgets
-    int tam_str = strlen(input); // declaracao do tam_str do vetor DIGITADO
+    input[strcspn(input, "\n")] = '\0'; // remove o '\n' lido pelo fgets
+    int tam_str = strlen(input);
 
+    // 1. Tentar encontrar a maior sequencia que se repete.
+    //    Pra isso, vamos testando strings de tam_str i (incrementando de 1 em 1)
     int i=0;
     while(i < tam_str){
-        // 1. Tentar encontrar a maior sequencia que se repete.
-        //    Pra isso, vamos testando strings de tam_str i (incrementando de 1 em 1)
-        
         int menor_tam_de_padrao = 0;
         
-        for(int tam_padrao_atual = tam_str/2; tam_padrao_atual>0; tam_padrao_atual--){
+        for(int tam_padrao_atual = (tam_str - i)/2; tam_padrao_atual > 0; tam_padrao_atual--){
             if(repete(input, tam_str, tam_padrao_atual, i)){
                 menor_tam_de_padrao = tam_padrao_atual;
             }
         }
 
-        if(menor_tam_de_padrao == 0) {
-            // Copia o caractere atual para a saída
+        if(menor_tam_de_padrao == 0) { // Nenhum padrão encontrado       
+            // Copia o caractere atual para a saída 
             int tam_out = strlen(output);
-            output[tam_out] = input[i];
-            output[tam_out+1] = '1';
-            output[tam_out+2] = '-';
-            output[tam_out+3] = '\0';
-             
-            i++; // incremento de i, para testar a partir da proxima posição
-            continue;
+            sprintf(output, "%c1", input[i]); 
+            i++; // incremento de i, para teste da próxima sequência
+            
+            // Adiciona o hífen se não for o fim da string
+            if (i < tam_str) {
+                strcat(output, "-");
+            }
+            continue; 
         }
-        char padrao[TAM_MAX] = "\0";
-        strncpy(padrao, input+i,menor_tam_de_padrao); // Copia a substring do padrão encontrado
+        
+        char padrao[TAM_MAX] = "";
+        strncat(output, input+i, menor_tam_de_padrao);
 
-        // Descobre quantas vezes o padrão se repete
-        int qtde_repeticoes = 2;  // 1 ocorrência inicial
+        // Contagem de ocorrências do padrão
+        int qtde_repeticoes = 2;  
 
+        // For feio da porra kskskskskksks
         for(int j = i + menor_tam_de_padrao; j + menor_tam_de_padrao <= tam_str; j += menor_tam_de_padrao){
             if(repete(input, tam_str, menor_tam_de_padrao, j)) qtde_repeticoes++;
-            else break; // parou de repetir
+            else break;
         }
 
-        
-        // Se um padrão foi encontrado, copia ele para a saída, indicando-se q qtde de vezes que se repetiu
-        strcat(output, padrao);
-        char qtde_str[TAM_MAX]; // ababababaaaaa
-        sprintf(qtde_str, "%d-", qtde_repeticoes);
-        strcat(output, qtde_str);
-        
         i += qtde_repeticoes * menor_tam_de_padrao;
+        char qtde_str[TAM_MAX];
+
+        // Adiciona o hífen se não for o fim da string
+        if (i < tam_str) {
+            sprintf(qtde_str, "%d-", qtde_repeticoes);
+        } else {
+            sprintf(qtde_str, "%d", qtde_repeticoes);
+        }
+
+        strcat(output, qtde_str);        
     }
 
-    printf("Compactada: %s\n", output);
-
+    printf("%s\n", output);
     return 0;
 }
